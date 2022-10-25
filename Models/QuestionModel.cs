@@ -1,5 +1,3 @@
-using Redis.OM.Modeling;
-
 namespace ELS.Models;
 
 
@@ -8,17 +6,28 @@ namespace ELS.Models;
 //     [Indexed] public List<Question> Questions {get; set;}
 // }
 
-[Document(StorageType = StorageType.Json, Prefixes = new[]{"Question"})]
 public class Question {
-    [RedisIdField] [Indexed] public string? Id {get; set;}
-    [Indexed] public string? Q {get; set;}
-    [Indexed] public List<Variant> Variants {get; set;} = null!;
-    [Indexed] public Variant Answer {get; set;} = null!;
+    public string? Id {get; set;}
+    public string? Q {get; set;}
+    public List<Variant> Variants {get; set;} = null!;
+    public Variant Answer {get; set;} = null!;
+    public double Time {get; set;}
+    public Question(string id, string q, List<Variant> variants, Variant answer, double time) {
+        Id = id;
+        Q = q;
+        Variants = variants;
+        Answer = answer;
+        Time = time;
+    }
 }
 
 public class Variant {
-    [Indexed] public string? QuestionId {get; set;}
-    [Indexed] public string? Value {get; set;}
+    public string? QuestionId {get; set;}
+    public string? Value {get; set;}
+    public Variant(string id, string value) {
+        QuestionId = id;
+        Value = value;
+    }
 }
 
 public class Q {

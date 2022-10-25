@@ -38,17 +38,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "NPGSQL": {
+            "Npgsql": {
               "target": "Package",
               "version": "[6.0.7, )"
-            },
-            "Redis.OM": {
-              "target": "Package",
-              "version": "[0.3.1, )"
-            },
-            "StackExchange.Redis": {
-              "target": "Package",
-              "version": "[2.6.70, )"
             }
           },
           "imports": [
