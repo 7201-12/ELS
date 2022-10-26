@@ -52,7 +52,7 @@ func (e *Els) GetVariant(id uuid.UUID) (*models.Variant, error) {
 }
 
 func scanQuestion(row pgx.Row, question *models.Question) error {
-	err := row.Scan(&question.ID, &question.Type, &question.Value, pq.Array(&question.Variants), &question.Answer)
+	err := row.Scan(&question.ID, &question.Type, &question.Value, pq.Array(&question.Variants), &question.Answer, &question.Time)
 	if err != nil {
 		return err
 	}
