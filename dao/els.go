@@ -16,9 +16,10 @@ type Els struct {
 	DB *pgxpool.Pool
 }
 
-func (e *Els) GetQuestionsByType(t int32) ([]*models.Question, error) {
+// by type and complexity
+func (e *Els) GetQuestions(t models.QuestionType, time float32) ([]*models.Question, error) {
 	questions := make([]*models.Question, 0)
-	rows, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE q_type = $1`, t)
+	rows, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE q_type = $1 AND time = `, t, time)
 	if err != nil {
 		return nil, err
 	}
@@ -26,6 +27,10 @@ func (e *Els) GetQuestionsByType(t int32) ([]*models.Question, error) {
 	for rows.Next() {
 		q := &models.Question{}
 		err = scanQuestion(rows, q)
+		if err != nil {
+			return nil, err
+		}
+		q.Answer, err = e.GetVariant(q.Answer.ID)
 		if err != nil {
 			return nil, err
 		}
@@ -41,20 +46,28 @@ func (e *Els) GetQuestionsByType(t int32) ([]*models.Question, error) {
 	return questions, nil
 }
 
-func (e *Els) GetVariant(id uuid.UUID) (*models.Variant, error) {
+func (e *Els) GetVariant(id uuid.UUID) (models.Variant, error) {
 	variant := &models.Variant{}
 	row := e.DB.QueryRow(ctx, `SELECT id, value FROM variants WHERE id = $1`, id)
 	err := scanVariant(row, variant)
 	if err != nil {
-		return nil, err
+		return models.Variant{}, err
 	}
-	return variant, nil
+	return *variant, nil
 }
 
 func scanQuestion(row pgx.Row, question *models.Question) error {
-	err := row.Scan(&question.ID, &question.Type, &question.Value, pq.Array(&question.Variants), &question.Answer, &question.Time)
+	sl := []string{}
+	err := row.Scan(&question.ID, &question.Type, &question.Value, pq.Array(&sl), &question.Answer.ID, &question.Time)
 	if err != nil {
 		return err
+	}
+	for _, v := range sl {
+		id, err := uuid.Parse(v)
+		if err != nil {
+			return err
+		}
+		question.Variants = append(question.Variants, &models.Variant{ID: id})
 	}
 	return nil
 }

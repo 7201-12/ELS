@@ -4,9 +4,9 @@ import "github.com/google/uuid"
 
 type QuestionType int32
 
+// полнота целостность проблемы
 const (
-	Theory QuestionType = iota
-	Methodology
+	Fulltegrity QuestionType = iota + 1
 	Problems
 )
 
