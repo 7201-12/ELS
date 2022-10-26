@@ -17,7 +17,8 @@ type Handler struct {
 }
 
 func NewHandler(pool *pgxpool.Pool) *Handler {
-	return &Handler{}
+	dao := &dao.Els{DB: pool}
+	return &Handler{DB: dao}
 }
 
 func (h *Handler) routes() *chi.Mux {

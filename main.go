@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/rs/zerolog/log"
@@ -17,6 +18,7 @@ func main() {
 	}
 	h := NewHandler(pool)
 	r := h.routes()
+	fmt.Println("Listen on :4000..........")
 	err = http.ListenAndServe(":4000", r)
 	if err != nil {
 		log.Fatal().Err(err).Msg("listen and serve error")
