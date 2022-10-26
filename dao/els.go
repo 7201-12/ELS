@@ -19,7 +19,7 @@ type Els struct {
 // by type and complexity
 func (e *Els) GetQuestions(t models.QuestionType, time float32) ([]*models.Question, error) {
 	questions := make([]*models.Question, 0)
-	rows, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE q_type = $1 AND time = `, t, time)
+	rows, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE q_type = $1 AND time = $2`, t, time)
 	if err != nil {
 		return nil, err
 	}
@@ -44,6 +44,19 @@ func (e *Els) GetQuestions(t models.QuestionType, time float32) ([]*models.Quest
 		questions = append(questions, q)
 	}
 	return questions, nil
+}
+
+func (e *Els) GetQuestion(id string) (*models.Question, error) {
+	question := &models.Question{}
+	row, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE id = $1`, id)
+	if err != nil {
+		return nil, err
+	}
+	err = scanQuestion(row, question)
+	if err != nil {
+		return nil, err
+	}
+	return question, nil
 }
 
 func (e *Els) GetVariant(id uuid.UUID) (models.Variant, error) {

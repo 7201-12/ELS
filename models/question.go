@@ -11,10 +11,10 @@ const (
 )
 
 type Question struct {
-	ID       uuid.UUID
-	Type     QuestionType
-	Value    string
-	Variants []*Variant
-	Answer   Variant
-	Time     float64
+	ID       uuid.UUID    `json:"id"`
+	Type     QuestionType `json:"type"`
+	Value    string       `json:"value"`
+	Variants []*Variant   `json:"variants"`
+	Answer   Variant      `json:"answer"`
+	Time     float64      `json:"time"`
 }

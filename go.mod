@@ -2,7 +2,10 @@ module github.com/7201-12/ELS
 
 go 1.19
 
-require github.com/go-chi/cors v1.2.1
+require (
+	github.com/go-chi/cors v1.2.1
+	github.com/gofrs/uuid v4.0.0+incompatible
+)
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"math/rand"
 	"net/http"
@@ -84,6 +85,42 @@ func (h *Handler) GetProblems(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handler) CalculateScore(w http.ResponseWriter, r *http.Request) {
+type Answer struct {
+	QuestionID string `json:"questionId"`
+	AnswerID   string `json:"answerId"`
+}
 
+func (h *Handler) CalculateScore(w http.ResponseWriter, r *http.Request) {
+	score := 0
+	answers := make([]*Answer, 0)
+	var b bytes.Buffer
+	_, err := b.ReadFrom(r.Body)
+	if err != nil {
+		log.Error().Err(err).Msg("read from body")
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	err = json.Unmarshal(b.Bytes(), &answers)
+	if err != nil {
+		log.Error().Err(err).Msg("json decode")
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	for _, a := range answers {
+		question, err := h.DB.GetQuestion(a.QuestionID)
+		if err != nil {
+			log.Error().Err(err).Msg("dao")
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		if a.AnswerID == question.Answer.ID.String() {
+			score += int(question.Time * 3)
+		}
+	}
+	err = json.NewEncoder(w).Encode(score)
+	if err != nil {
+		log.Error().Err(err).Msg("json encode")
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
 }
