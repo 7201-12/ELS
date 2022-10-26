@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/rs/zerolog/log"
 )
@@ -38,7 +39,7 @@ func (h *Handler) routes() *chi.Mux {
 	// fullness + integrity = fulltegrity
 	r.Get("/fulltegrity", h.GetFulltegrity)
 	r.Get("/problems", h.GetProblems)
-	r.Post("/questions", h.CalculateScore)
+	r.Post("/calculate", h.CalculateScore)
 
 	return r
 }
@@ -107,7 +108,7 @@ func (h *Handler) CalculateScore(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, a := range answers {
-		question, err := h.DB.GetQuestion(a.QuestionID)
+		question, err := h.DB.GetQuestion(uuid.MustParse(a.QuestionID))
 		if err != nil {
 			log.Error().Err(err).Msg("dao")
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

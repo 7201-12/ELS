@@ -46,13 +46,10 @@ func (e *Els) GetQuestions(t models.QuestionType, time float32) ([]*models.Quest
 	return questions, nil
 }
 
-func (e *Els) GetQuestion(id string) (*models.Question, error) {
+func (e *Els) GetQuestion(id uuid.UUID) (*models.Question, error) {
 	question := &models.Question{}
-	row, err := e.DB.Query(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE id = $1`, id)
-	if err != nil {
-		return nil, err
-	}
-	err = scanQuestion(row, question)
+	row := e.DB.QueryRow(ctx, `SELECT id, q_type, value, variants, answer, time FROM questions WHERE id = $1`, id)
+	err := scanQuestion(row, question)
 	if err != nil {
 		return nil, err
 	}
