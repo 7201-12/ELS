@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS variants(
 );
 
 INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('ab169a28-124f-454d-8c84-99e110f3b013', 1, 'Что такое многочлен?', '{"dae7a8aa-6168-485d-96d6-188a5a9fbdaf", "a11366b7-6e7f-4d93-ba8d-4d68e423da31", "7744edaa-b34d-47cb-96cf-a66136406cd9"}', '7744edaa-b34d-47cb-96cf-a66136406cd9', 0.5);
-INSERT INTO variants(id, value) VALUES('dae7a8aa-6168-485d-96d6-188a5a9fbdaf', 'Это сумма одночленов');
+INSERT INTO variants(id, value) VALUES('dae7a8aa-6168-485d-96d6-188a5a9fbdaf', 'Упорядоченный набор векторов в векторном пространстве');
 INSERT INTO variants(id, value) VALUES('a11366b7-6e7f-4d93-ba8d-4d68e423da31', 'Алгебраическое выражение');
-INSERT INTO variants(id, value) VALUES('7744edaa-b34d-47cb-96cf-a66136406cd9', 'Упорядоченный набор векторов в векторном пространстве');
+INSERT INTO variants(id, value) VALUES('7744edaa-b34d-47cb-96cf-a66136406cd9', 'Это сумма одночленов');
 
 INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('3e6273eb-4e86-44af-a920-07363afcb753', 1, 'В какой степени многочлен не имеет решений в действительных числах?', '{"46edac97-7229-4fc9-bc0b-8ef00485aef0", "6e02caf6-39cf-4ab4-b2c7-738c8da1ed5e", "dfe7bce4-b644-4fc0-8e55-5f33f512a2c8"}', '46edac97-7229-4fc9-bc0b-8ef00485aef0', 1);
 INSERT INTO variants(id, value) VALUES('46edac97-7229-4fc9-bc0b-8ef00485aef0', '>= 5');
