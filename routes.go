@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -92,7 +93,7 @@ type Answer struct {
 }
 
 func (h *Handler) CalculateScore(w http.ResponseWriter, r *http.Request) {
-	score := 0
+	var score float64
 	answers := make([]*Answer, 0)
 	var b bytes.Buffer
 	_, err := b.ReadFrom(r.Body)
@@ -115,7 +116,8 @@ func (h *Handler) CalculateScore(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if a.AnswerID == question.Answer.ID.String() {
-			score += int(question.Time * 3)
+			score += question.Time * 3
+			fmt.Println(score)
 		}
 	}
 	err = json.NewEncoder(w).Encode(score)
