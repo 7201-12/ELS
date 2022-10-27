@@ -27,20 +27,20 @@ CREATE TABLE IF NOT EXISTS variants(
     PRIMARY KEY(id)
 );
 
-INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('ab169a28-124f-454d-8c84-99e110f3b013', 1, 'What is your name?', '{"dae7a8aa-6168-485d-96d6-188a5a9fbdaf", "a11366b7-6e7f-4d93-ba8d-4d68e423da31", "7744edaa-b34d-47cb-96cf-a66136406cd9"}', '7744edaa-b34d-47cb-96cf-a66136406cd9', 0.5);
-INSERT INTO variants(id, value) VALUES('dae7a8aa-6168-485d-96d6-188a5a9fbdaf', 'My name is Sir Lancelot of Camelot');
-INSERT INTO variants(id, value) VALUES('a11366b7-6e7f-4d93-ba8d-4d68e423da31', 'Sir Robin of Camelot');
-INSERT INTO variants(id, value) VALUES('7744edaa-b34d-47cb-96cf-a66136406cd9', 'It is Arthur, King of the Britons');
+INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('ab169a28-124f-454d-8c84-99e110f3b013', 1, 'Что такое многочлен?', '{"dae7a8aa-6168-485d-96d6-188a5a9fbdaf", "a11366b7-6e7f-4d93-ba8d-4d68e423da31", "7744edaa-b34d-47cb-96cf-a66136406cd9"}', '7744edaa-b34d-47cb-96cf-a66136406cd9', 0.5);
+INSERT INTO variants(id, value) VALUES('dae7a8aa-6168-485d-96d6-188a5a9fbdaf', 'Это сумма одночленов');
+INSERT INTO variants(id, value) VALUES('a11366b7-6e7f-4d93-ba8d-4d68e423da31', 'Алгебраическое выражение');
+INSERT INTO variants(id, value) VALUES('7744edaa-b34d-47cb-96cf-a66136406cd9', 'Упорядоченный набор векторов в векторном пространстве');
 
-INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('3e6273eb-4e86-44af-a920-07363afcb753', 1, 'What... is your favorite color?', '{"46edac97-7229-4fc9-bc0b-8ef00485aef0", "6e02caf6-39cf-4ab4-b2c7-738c8da1ed5e", "dfe7bce4-b644-4fc0-8e55-5f33f512a2c8"}', '46edac97-7229-4fc9-bc0b-8ef00485aef0', 1);
-INSERT INTO variants(id, value) VALUES('46edac97-7229-4fc9-bc0b-8ef00485aef0', 'Blue');
-INSERT INTO variants(id, value) VALUES('6e02caf6-39cf-4ab4-b2c7-738c8da1ed5e', 'Blue. No, yel-- auuuuuuuugh!');
-INSERT INTO variants(id, value) VALUES('dfe7bce4-b644-4fc0-8e55-5f33f512a2c8', 'Black');
+INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('3e6273eb-4e86-44af-a920-07363afcb753', 1, 'В какой степени многочлен не имеет решений в действительных числах?', '{"46edac97-7229-4fc9-bc0b-8ef00485aef0", "6e02caf6-39cf-4ab4-b2c7-738c8da1ed5e", "dfe7bce4-b644-4fc0-8e55-5f33f512a2c8"}', '46edac97-7229-4fc9-bc0b-8ef00485aef0', 1);
+INSERT INTO variants(id, value) VALUES('46edac97-7229-4fc9-bc0b-8ef00485aef0', '>= 5');
+INSERT INTO variants(id, value) VALUES('6e02caf6-39cf-4ab4-b2c7-738c8da1ed5e', '>5');
+INSERT INTO variants(id, value) VALUES('dfe7bce4-b644-4fc0-8e55-5f33f512a2c8', '>=4');
 
-INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('745a3d11-4bc9-4d1a-974c-a9f8998fafb5', 1, 'What... is the air-speed velocity of an unladen swallow?', '{"b587a980-d71d-45b7-b685-d2557969e8d7", "221f6f33-80f4-4371-adde-8a51bb518e64", "7e73ef72-5187-4c59-b39e-889cbab388a9"}', 'b587a980-d71d-45b7-b685-d2557969e8d7', 1.5);
-INSERT INTO variants(id, value) VALUES('b587a980-d71d-45b7-b685-d2557969e8d7', 'What do you mean? An African or European swallow?');
-INSERT INTO variants(id, value) VALUES('221f6f33-80f4-4371-adde-8a51bb518e64', '100');
-INSERT INTO variants(id, value) VALUES('7e73ef72-5187-4c59-b39e-889cbab388a9', '250');
+INSERT INTO questions(id, q_type, value, variants, answer, time) VALUES('745a3d11-4bc9-4d1a-974c-a9f8998fafb5', 1, 'Как называется формула, связывающая коэффициенты многочлена и его корни?', '{"b587a980-d71d-45b7-b685-d2557969e8d7", "221f6f33-80f4-4371-adde-8a51bb518e64", "7e73ef72-5187-4c59-b39e-889cbab388a9"}', 'b587a980-d71d-45b7-b685-d2557969e8d7', 1.5);
+INSERT INTO variants(id, value) VALUES('b587a980-d71d-45b7-b685-d2557969e8d7', 'Формула Виета');
+INSERT INTO variants(id, value) VALUES('221f6f33-80f4-4371-adde-8a51bb518e64', 'Формула Лагранжа');
+INSERT INTO variants(id, value) VALUES('7e73ef72-5187-4c59-b39e-889cbab388a9', 'Формула Байеса');
 
 
 
