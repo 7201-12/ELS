@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
-	"time"
+	"strconv"
 
 	"github.com/7201-12/ELS/dao"
 	"github.com/7201-12/ELS/models"
@@ -37,49 +36,26 @@ func (h *Handler) routes() *chi.Mux {
 		AllowedMethods: []string{"PUT", "POST", "DELETE", "GET", "OPTIONS"},
 	}))
 
-	// fullness + integrity = fulltegrity
-	r.Get("/fulltegrity", h.GetFulltegrity)
-	r.Get("/problems", h.GetProblems)
+	r.Get("/test/{id}", h.GetTest)
 	r.Post("/calculate", h.CalculateScore)
 
 	return r
 }
 
-func (h *Handler) GetFulltegrity(w http.ResponseWriter, r *http.Request) {
-	questions := make([]*models.Question, 0)
-	times := []float32{0.5, 1, 1.5}
-	for _, v := range times {
-		q, err := h.DB.GetQuestions(models.Fulltegrity, v)
-		if err != nil {
-			log.Error().Err(err).Msg("dao")
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-		rand.Seed(time.Now().Unix())
-		questions = append(questions, q[rand.Intn(len(q))])
-	}
-	err := json.NewEncoder(w).Encode(questions)
+func (h *Handler) GetTest(w http.ResponseWriter, r *http.Request) {
+	q, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {
-		log.Error().Err(err).Msg("json encode")
+		log.Error().Err(err).Msg("convert")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-}
-
-func (h *Handler) GetProblems(w http.ResponseWriter, r *http.Request) {
-	questions := make([]*models.Question, 0)
-	times := []float32{2, 3}
-	for _, v := range times {
-		q, err := h.DB.GetQuestions(models.Problems, v)
-		if err != nil {
-			log.Error().Err(err).Msg("dao")
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-		rand.Seed(time.Now().Unix())
-		questions = append(questions, q[rand.Intn(len(q))])
+	questions, err := h.DB.GetQuestions(models.TestType(q))
+	if err != nil {
+		log.Error().Err(err).Msg("db")
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
-	err := json.NewEncoder(w).Encode(questions)
+	err = json.NewEncoder(w).Encode(questions)
 	if err != nil {
 		log.Error().Err(err).Msg("json encode")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
