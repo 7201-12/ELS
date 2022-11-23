@@ -17,9 +17,9 @@ type Els struct {
 }
 
 // by type and complexity
-func (e *Els) GetQuestions(t models.TestType) ([]*models.Question, error) {
+func (e *Els) GetQuestions(testId models.TestType, themeId models.ThemeType) ([]*models.Question, error) {
 	questions := make([]*models.Question, 0)
-	rows, err := e.DB.Query(ctx, `SELECT id, q_type, t_type, value, variants, answer, time FROM questions WHERE t_type = $1`, t)
+	rows, err := e.DB.Query(ctx, `SELECT id, test_id, theme_id, value, variants, answer, time FROM questions WHERE test_id = $1 AND theme_id = $2`, testId, themeId)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (e *Els) GetQuestions(t models.TestType) ([]*models.Question, error) {
 
 func (e *Els) GetQuestion(id uuid.UUID) (*models.Question, error) {
 	question := &models.Question{}
-	row := e.DB.QueryRow(ctx, `SELECT id, q_type, t_type, value, variants, answer, time FROM questions WHERE id = $1`, id)
+	row := e.DB.QueryRow(ctx, `SELECT id, test_id, theme_id, value, variants, answer, time FROM questions WHERE id = $1`, id)
 	err := scanQuestion(row, question)
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (e *Els) GetVariant(id uuid.UUID) (models.Variant, error) {
 
 func scanQuestion(row pgx.Row, question *models.Question) error {
 	sl := []string{}
-	err := row.Scan(&question.ID, &question.Type, &question.TestType, &question.Value, pq.Array(&sl), &question.Answer.ID, &question.Time)
+	err := row.Scan(&question.ID, &question.TestId, &question.ThemeId, &question.Value, pq.Array(&sl), &question.Answer.ID, &question.Time)
 	if err != nil {
 		return err
 	}

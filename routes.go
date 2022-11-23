@@ -36,20 +36,26 @@ func (h *Handler) routes() *chi.Mux {
 		AllowedMethods: []string{"PUT", "POST", "DELETE", "GET", "OPTIONS"},
 	}))
 
-	r.Get("/test/{id}", h.GetTest)
+	r.Get("/test/{themeId}/{testId}", h.GetTest)
 	r.Post("/calculate", h.CalculateScore)
 
 	return r
 }
 
 func (h *Handler) GetTest(w http.ResponseWriter, r *http.Request) {
-	q, err := strconv.Atoi(chi.URLParam(r, "id"))
+	themeId, err := strconv.Atoi(chi.URLParam(r, "themeId"))
 	if err != nil {
 		log.Error().Err(err).Msg("convert")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	questions, err := h.DB.GetQuestions(models.TestType(q))
+	testId, err := strconv.Atoi(chi.URLParam(r, "testId"))
+	if err != nil {
+		log.Error().Err(err).Msg("convert")
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	questions, err := h.DB.GetQuestions(models.TestType(testId), models.ThemeType(themeId))
 	if err != nil {
 		log.Error().Err(err).Msg("db")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
