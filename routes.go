@@ -32,7 +32,7 @@ func (h *Handler) routes() *chi.Mux {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins: []string{"http://localhost:20180"},
+		AllowedOrigins: []string{"http://localhost:3000"},
 		AllowedMethods: []string{"PUT", "POST", "DELETE", "GET", "OPTIONS"},
 	}))
 
