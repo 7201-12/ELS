@@ -1,2 +1,6 @@
 .vscode
 .idea
+face-recognition/env
+face-recognition/images
+face-recognition/face_enc
+face-recognition/haarcascade_frontalface_alt2.xml

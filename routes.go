@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os/exec"
 	"strconv"
 
 	"github.com/7201-12/ELS/dao"
@@ -32,14 +33,25 @@ func (h *Handler) routes() *chi.Mux {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins: []string{"http://localhost:20180"},
+		AllowedOrigins: []string{"http://localhost:3000"},
 		AllowedMethods: []string{"PUT", "POST", "DELETE", "GET", "OPTIONS"},
 	}))
 
+	r.Get("/start", h.RecognizeFace)
 	r.Get("/test/{themeId}/{testId}", h.GetTest)
 	r.Post("/calculate", h.CalculateScore)
 
 	return r
+}
+
+func (h *Handler) RecognizeFace(w http.ResponseWriter, r *http.Request) {
+	cmd := exec.Command("python3", "face-recognition/recognize.py")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(out))
+	w.Write([]byte(string(out)))
 }
 
 func (h *Handler) GetTest(w http.ResponseWriter, r *http.Request) {
